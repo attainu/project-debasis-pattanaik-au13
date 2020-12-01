@@ -9,8 +9,8 @@ if sys.version_info[0] == 2:
 class ParkingLot:
     def __init__(self):
         self.capacity = 0
-        self.slotid = 0
-        self.numOfOccupiedSlots = 0
+        self.Slot_ID = 0
+        self.Occupied_slots = 0
 
     def createParkingLot(self, capacity):
         self.slots = [-1] * capacity
@@ -22,21 +22,21 @@ class ParkingLot:
             if self.slots[i] == -1:
                 return i
 
-    def park(self, regno, color):
-        if self.numOfOccupiedSlots < self.capacity:
-            slotid = self.getEmptySlot()
-            self.slots[slotid] = Vehicle.Car(regno, color)
-            self.slotid = self.slotid+1
-            self.numOfOccupiedSlots = self.numOfOccupiedSlots + 1
-            return slotid+1
+    def park(self, Reg_no, color):
+        if self.Occupied_slots < self.capacity:
+            Slot_ID = self.getEmptySlot()
+            self.slots[Slot_ID] = Vehicle.Car(Reg_no, color)
+            self.Slot_ID = self.Slot_ID+1
+            self.Occupied_slots = self.Occupied_slots + 1
+            return Slot_ID+1
         else:
             return -1
 
-    def leave(self, slotid):
+    def leave(self, Slot_ID):
 
-        if self.numOfOccupiedSlots > 0 and self.slots[slotid-1] != -1:
-            self.slots[slotid-1] = -1
-            self.numOfOccupiedSlots = self.numOfOccupiedSlots - 1
+        if self.Occupied_slots > 0 and self.slots[Slot_ID-1] != -1:
+            self.slots[Slot_ID-1] = -1
+            self.Occupied_slots = self.Occupied_slots - 1
             return True
         else:
             return False
@@ -46,25 +46,25 @@ class ParkingLot:
         for i in range(len(self.slots)):
             if self.slots[i] != -1:
                 print(str(i+1) + "\t\t" +
-                      str(self.slots[i].regno) + "\t\t" + str(self.slots[i].color))
+                      str(self.slots[i].Reg_no) + "\t\t" + str(self.slots[i].color))
             else:
                 continue
 
     def getRegNoFromColor(self, color):
 
-        regnos = []
+        Registration_Nos = []
         for i in self.slots:
 
             if i == -1:
                 continue
             if i.color == color:
-                regnos.append(i.regno)
-        return regnos
+                Registration_Nos.append(i.Reg_no)
+        return Registration_Nos
 
-    def getSlotNoFromRegNo(self, regno):
+    def getSlotNoFromRegNo(self, Reg_no):
 
         for i in range(len(self.slots)):
-            if self.slots[i].regno == regno:
+            if self.slots[i].Reg_no == Reg_no:
                 return i+1
             else:
                 continue
@@ -89,9 +89,9 @@ class ParkingLot:
             print('Created a parking lot with '+str(res)+' slots')
 
         elif line.startswith('park'):
-            regno = line.split(' ')[1]
+            Reg_no = line.split(' ')[1]
             color = line.split(' ')[2]
-            res = self.park(regno, color)
+            res = self.park(Reg_no, color)
             if res == -1:
                 print("Sorry, parking lot is full")
             else:
@@ -108,8 +108,8 @@ class ParkingLot:
 
         elif line.startswith('registration_numbers_for_cars_with_colour'):
             color = line.split(' ')[1]
-            regnos = self.getRegNoFromColor(color)
-            print(', '.join(regnos))
+            Registration_Nos = self.getRegNoFromColor(color)
+            print(', '.join(Registration_Nos))
 
         elif line.startswith('slot_numbers_for_cars_with_colour'):
             color = line.split(' ')[1]
@@ -117,8 +117,8 @@ class ParkingLot:
             print(', '.join(slotnos))
 
         elif line.startswith('slot_number_for_registration_number'):
-            regno = line.split(' ')[1]
-            slotno = self.getSlotNoFromRegNo(regno)
+            Reg_no = line.split(' ')[1]
+            slotno = self.getSlotNoFromRegNo(Reg_no)
             if slotno == -1:
                 print("Not found")
             else:
