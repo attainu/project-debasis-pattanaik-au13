@@ -6,25 +6,25 @@ if sys.version_info[0] == 2:
     input = input()
 
 
-class ParkingLot:
+class Parking:
     def __init__(self):
         self.capacity = 0
         self.Slot_ID = 0
         self.Occupied_slots = 0
 
-    def createParkingLot(self, capacity):
+    def Create_New_Slot(self, capacity):
         self.slots = [-1] * capacity
         self.capacity = capacity
         return self.capacity
 
-    def getEmptySlot(self):
+    def Empty_Slots(self):
         for i in range(len(self.slots)):
             if self.slots[i] == -1:
                 return i
 
     def park(self, Reg_no, color):
         if self.Occupied_slots < self.capacity:
-            Slot_ID = self.getEmptySlot()
+            Slot_ID = self.Empty_Slots()
             self.slots[Slot_ID] = Vehicle.Car(Reg_no, color)
             self.Slot_ID = self.Slot_ID+1
             self.Occupied_slots = self.Occupied_slots + 1
@@ -85,7 +85,7 @@ class ParkingLot:
     def show(self, line):
         if line.startswith('create_parking_lot'):
             n = int(line.split(' ')[1])
-            res = self.createParkingLot(n)
+            res = self.Create_New_Slot(n)
             print('Created a parking lot with '+str(res)+' slots')
 
         elif line.startswith('park'):
@@ -129,7 +129,7 @@ class ParkingLot:
 
 def main():
 
-    parkinglot = ParkingLot()
+    parkinglot = Parking()
     parser = argparse.ArgumentParser()
     parser.add_argument('-f', action="store", required=False,
                         dest='src_file', help="Input File")
